@@ -1,6 +1,5 @@
 package com.alura.foro.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
