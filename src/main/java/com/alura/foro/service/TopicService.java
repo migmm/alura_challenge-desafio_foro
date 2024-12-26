@@ -4,6 +4,10 @@ import com.alura.foro.dto.TopicDTO;
 import com.alura.foro.model.Topic;
 import com.alura.foro.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,9 +33,11 @@ public class TopicService {
     }
 
     // Obtener todos los tópicos
-    public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+    public Page<Topic> getAllTopics(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return topicRepository.findAll(pageable);
     }
+
 
     // Obtener un tópico por ID
     public Optional<Topic> getTopicById(Long id) {
