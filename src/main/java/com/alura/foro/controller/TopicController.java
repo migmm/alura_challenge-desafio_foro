@@ -4,6 +4,7 @@ import com.alura.foro.dto.TopicDTO;
 import com.alura.foro.model.Topic;
 import com.alura.foro.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,11 @@ public class TopicController {
 
     // Obtener todos los tópicos
     @GetMapping
-    public ResponseEntity<List<Topic>> getAllTopics() {
-        List<Topic> topics = topicService.getAllTopics();
+    public ResponseEntity<Page<Topic>> getAllTopics(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy) {
+        Page<Topic> topics = topicService.getAllTopics(page, size, sortBy);
         return ResponseEntity.ok(topics);
     }
 
