@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topics")
@@ -34,11 +34,17 @@ public class TopicController {
         return ResponseEntity.ok(topics);
     }
 
+    @GetMapping("/{id}/with-replies")
+    public ResponseEntity<TopicDTO> getTopicWithRepliesById(@PathVariable Long id) {
+        TopicDTO topicWithReplies = topicService.getTopicWithRepliesById(id);
+        return ResponseEntity.ok(topicWithReplies);
+    }
+
     // Obtener un tópico por ID
     @GetMapping("/{id}")
     public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
-        return topicService.getTopicById(id)
-                .map(ResponseEntity::ok)
+        Optional<Topic> topic = topicService.getTopicById(id);
+        return topic.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
