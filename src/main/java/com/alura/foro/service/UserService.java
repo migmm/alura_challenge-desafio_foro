@@ -4,6 +4,7 @@ import com.alura.foro.dto.UserDTO;
 import com.alura.foro.model.User;
 import com.alura.foro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,13 @@ public class UserService {
     private UserRepository userRepository;
 
     // Crear un nuevo usuario
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User createUser(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword())); // Encriptar la contraseña
         return userRepository.save(user);
     }
 
