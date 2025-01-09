@@ -1,209 +1,293 @@
 {
   "info": {
-    "_postman_id": "12345678-90ab-cdef-1234-567890abcdef",
+    "_postman_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
     "name": "Foro API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Tópicos",
-      "item": [
-        {
-          "name": "Crear un Tópico",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Mi primer tópico\",\n  \"message\": \"Este es el mensaje del tópico\",\n  \"author\": \"Usuario1\",\n  \"course\": \"Curso de Spring Boot\"\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/topics",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["topics"]
-            }
-          },
-          "response": []
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"nombre_de_usuario\",\n    \"password\": \"contraseña\"\n}"
         },
-        {
-          "name": "Obtener Todos los Tópicos",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/topics",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["topics"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Obtener un Tópico por ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/topics/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["topics", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Actualizar un Tópico",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Título actualizado\",\n  \"message\": \"Mensaje actualizado\",\n  \"author\": \"Usuario1\",\n  \"course\": \"Curso de Spring Boot\"\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/topics/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["topics", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Eliminar un Tópico",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/topics/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["topics", "1"]
-            }
-          },
-          "response": []
+        "url": {
+          "raw": "http://localhost:8080/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["auth", "login"]
         }
-      ]
+      }
     },
     {
-      "name": "Usuarios",
-      "item": [
-        {
-          "name": "Crear un Usuario",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"usuario1\",\n  \"password\": \"password123\"\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/users",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["users"]
-            }
-          },
-          "response": []
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"password\": \"nueva_contraseña\"\n}"
         },
-        {
-          "name": "Obtener Todos los Usuarios",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/users",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Obtener un Usuario por ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/users/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["users", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Actualizar un Usuario",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"usuario1_actualizado\",\n  \"password\": \"nuevo_password123\"\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/users/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["users", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Eliminar un Usuario",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/users/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["users", "1"]
-            }
-          },
-          "response": []
+        "url": {
+          "raw": "http://localhost:8080/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["auth", "register"]
         }
-      ]
+      }
+    },
+    {
+      "name": "Reply - Create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"message\": \"Esta es una respuesta de ejemplo\",\n    \"status\": \"ACTIVE\",\n    \"topicId\": 1,\n    \"userId\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/replies",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["replies"]
+        }
+      }
+    },
+    {
+      "name": "Reply - Update",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"message\": \"Respuesta actualizada\",\n    \"status\": \"INACTIVE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/replies/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["replies", "1"]
+        }
+      }
+    },
+    {
+      "name": "Topic - Create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Título del tópico\",\n    \"message\": \"Este es un mensaje de ejemplo para el tópico\",\n    \"author\": \"Autor del tópico\",\n    \"course\": \"Curso relacionado\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/topics",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["topics"]
+        }
+      }
+    },
+    {
+      "name": "Topic - Update",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Título actualizado\",\n    \"message\": \"Mensaje actualizado\",\n    \"author\": \"Autor actualizado\",\n    \"course\": \"Curso actualizado\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/topics/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["topics", "1"]
+        }
+      }
+    },
+    {
+      "name": "User - Create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"password\": \"nueva_contraseña\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["users"]
+        }
+      }
+    },
+    {
+      "name": "User - Update",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"usuario_actualizado\",\n    \"password\": \"contraseña_actualizada\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/users/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["users", "1"]
+        }
+      }
+    },
+    {
+      "name": "Topic - Get with Replies",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/topics/1/with-replies",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["topics", "1", "with-replies"]
+        }
+      }
+    },
+    {
+      "name": "Reply - Get by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/replies/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["replies", "1"]
+        }
+      }
+    },
+    {
+      "name": "User - Get by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/users/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["users", "1"]
+        }
+      }
+    },
+    {
+      "name": "Topic - Get All",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/topics?page=0&size=10&sortBy=title",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["topics"],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            },
+            {
+              "key": "sortBy",
+              "value": "title"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Reply - Get All",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/replies",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["replies"]
+        }
+      }
+    },
+    {
+      "name": "User - Get All",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["users"]
+        }
+      }
+    },
+    {
+      "name": "Reply - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/replies/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["replies", "1"]
+        }
+      }
+    },
+    {
+      "name": "Topic - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/topics/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["topics", "1"]
+        }
+      }
+    },
+    {
+      "name": "User - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/users/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["users", "1"]
+        }
+      }
     }
   ]
 }
