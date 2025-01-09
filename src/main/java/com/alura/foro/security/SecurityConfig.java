@@ -3,6 +3,7 @@ package com.alura.foro.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**").permitAll() // Permitir acceso a /auth sin autenticación
+                .requestMatchers(HttpMethod.GET, "/topics").permitAll() // Permitir acceso público a GET /topics
                 .anyRequest().authenticated() // El resto de los endpoints requieren autenticación
                 .and()
                 .addFilterBefore(new JwtTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class); // Filtro JWT
