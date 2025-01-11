@@ -25,18 +25,6 @@ CREATE TABLE reply (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO user (username, password) VALUES
-('john_doe', 'password123'),
-('jane_smith', 'password123'),
-('alice_w', 'password123'),
-('bob_brown', 'password123'),
-('charlie_d', 'password123'),
-('diana_r', 'password123'),
-('edward_k', 'password123'),
-('fiona_g', 'password123'),
-('george_h', 'password123'),
-('hannah_m', 'password123');
-
 INSERT INTO topic (title, message, created_at, status, author, course) VALUES
 ('Cómo usar Spring Boot', 'Estoy aprendiendo Spring Boot y tengo algunas preguntas.', NOW(), 'ACTIVO', 'john_doe', 'Spring Boot'),
 ('Mejores prácticas para APIs REST', '¿Cuáles son las mejores prácticas para diseñar APIs REST?', NOW(), 'ACTIVO', 'jane_smith', 'Diseño de APIs'),
