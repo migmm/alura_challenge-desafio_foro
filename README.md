@@ -29,12 +29,21 @@ Crea una base de datos en MySQL (o tu gestor de bases de datos preferido).
 
         
 ```bash
-    spring.datasource.url=jdbc:mysql://localhost:3306/nombre_de_tu_base_de_datos
-    spring.datasource.username=tu_usuario
-    spring.datasource.password=tu_contraseña
-    spring.jpa.hibernate.ddl-auto=update
+spring.application.name=foro
+spring.datasource.url=jdbc:mysql://localhost:3306/foro_db
+spring.datasource.username=usuario
+spring.datasource.password=contraseña
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.flyway.baseline-on-migrate=true
+jwt.secret=mySuperSecretKeyWithAtLeast64Characters1234567890abcdefghijklmnopqrstuvwxyz
+jwt.expiration=86400000
+spring.jpa.open-in-view=false
 ```
 
+Nota: la clave jwt.secret debe tener al menos 512 bits (64 caracteres) para algoritmo HS512.
 4. **Compila y ejecuta la aplicación:**
 ```bash
     mvn clean install
@@ -46,10 +55,7 @@ Crea una base de datos en MySQL (o tu gestor de bases de datos preferido).
 
 Hay endpoints que necesitan autenticación y otros que no, para los que necesitan autenticacion primero hay que loguearse y cuando se recibe el Bearer token se usa en cada endpoint privado.
 
-Luego de hacer la migracion se puede usar este set de credenciales para pruebas
-
-    Usuario: george_h
-    Password: password123
+Luego de hacer la migracion se tiene que crear un usuario con el endopoint /auth/register enviando username y password y despues se hace el login con las credenciales con las que se registró el usuario.
 
 
 Autenticación
