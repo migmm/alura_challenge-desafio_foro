@@ -1,13 +1,11 @@
 package com.alura.foro.controller;
 
 import com.alura.foro.dto.UserDTO;
-import com.alura.foro.security.TokenService;
+import com.alura.foro.model.User;
+import com.alura.foro.service.AuthService;
 import com.alura.foro.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,40 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private UserService userService;
 
-    // Endpoint para login
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-        // Autenticar al usuario
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
-        );
+    @Autowired
+    private AuthService authService;
 
-        // Generar el token JWT
-        String token = tokenService.generateToken(authentication.getName());
-        return ResponseEntity.ok(token);
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody UserDTO user) {
+        return ResponseEntity.ok(userService.createUser(user));
     }
 
-    // Endpoint para registro
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
-        // Crear un nuevo usuario
-        userService.createUser(userDTO);
-
-        // Autenticar al usuario recién registrado
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
-        );
-
-        // Generar el token JWT
-        String token = tokenService.generateToken(authentication.getName());
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+        System.out.println("Username recibido: " + userDTO.getUsername());
+        System.out.println("Password recibido: " + userDTO.getPassword());
+        String token = authService.authenticate(userDTO.getUsername(), userDTO.getPassword());
         return ResponseEntity.ok(token);
     }
 }
