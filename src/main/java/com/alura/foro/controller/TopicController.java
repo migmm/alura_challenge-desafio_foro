@@ -8,54 +8,41 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("/topics")
+@RequestMapping("/topicos")
 public class TopicController {
 
     @Autowired
     private TopicService topicService;
 
-    // Crear un nuevo tópico
     @PostMapping
-    public ResponseEntity<Topic> createTopic(@RequestBody TopicDTO topicDTO) {
-        Topic createdTopic = topicService.createTopic(topicDTO);
-        return ResponseEntity.ok(createdTopic);
+    public Topic createTopic(@Valid @RequestBody TopicDTO topic) {
+        return topicService.createTopic(topic);
     }
 
-    // Obtener todos los tópicos
     @GetMapping
     public ResponseEntity<Page<Topic>> getAllTopics(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "title") String sortBy) {
-        Page<Topic> topics = topicService.getAllTopics(page, size, sortBy);
-        return ResponseEntity.ok(topics);
+            @RequestParam(defaultValue = "createdAt,asc") String[] sort) {
+        return ResponseEntity.ok(topicService.getAllTopics(page, size, sort));
     }
 
-    @GetMapping("/{id}/with-replies")
-    public ResponseEntity<TopicDTO> getTopicWithRepliesById(@PathVariable Long id) {
-        TopicDTO topicWithReplies = topicService.getTopicWithRepliesById(id);
-        return ResponseEntity.ok(topicWithReplies);
-    }
-
-    // Obtener un tópico por ID
     @GetMapping("/{id}")
     public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
-        Optional<Topic> topic = topicService.getTopicById(id);
-        return topic.map(ResponseEntity::ok)
+        return topicService.getTopicById(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Actualizar un tópico
     @PutMapping("/{id}")
-    public ResponseEntity<Topic> updateTopic(@PathVariable Long id, @RequestBody TopicDTO topicDTO) {
-        Topic updatedTopic = topicService.updateTopic(id, topicDTO);
-        return ResponseEntity.ok(updatedTopic);
+    public ResponseEntity<Topic> updateTopic(@PathVariable Long id, @Valid @RequestBody Topic topicDetails) {
+        return ResponseEntity.ok(topicService.updateTopic(id, topicDetails));
     }
 
-    // Eliminar un tópico
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
         topicService.deleteTopic(id);
