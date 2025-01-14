@@ -58,118 +58,116 @@ Hay endpoints que necesitan autenticación y otros que no, para los que necesita
 Luego de hacer la migracion se tiene que crear un usuario con el endopoint /auth/register enviando username y password y despues se hace el login con las credenciales con las que se registró el usuario.
 
 
-Autenticación
+## Autenticación
 
-Login: POST /auth/login
+### Registrar Usuario
+- **POST** `/auth/register`
+  - Registra un nuevo usuario.
+  - **Body**:
+    ```json
+    {
+      "username": "testuser",
+      "password": "password123"
+    }
+    ```
 
-    Body:
-```json
+### Iniciar Sesión
+- **POST** `/auth/login`
+  - Inicia sesión y devuelve un token JWT.
+  - **Body**:
+    ```json
+    {
+      "username": "testuser",
+      "password": "password123"
+    }
+    ```
 
-        {
-          "username": "nombre_de_usuario",
-          "password": "contraseña"
-        }
-```
-Registro: POST /auth/register
+## Usuarios
 
-        Body:
-```json
+### Crear Usuario
+- **POST** `/usuarios`
+  - Crea un nuevo usuario.
+  - **Body**:
+    ```json
+    {
+      "username": "newuser",
+      "password": "newpassword"
+    }
+    ```
 
-        {
-          "username": "nuevo_usuario",
-          "password": "nueva_contraseña"
-        }
-```
-Usuarios
+### Obtener Todos los Usuarios
+- **GET** `/usuarios`
+  - Devuelve una lista de todos los usuarios.
 
-Crear usuario: POST /users
+### Eliminar Usuario
+- **DELETE** `/usuarios/{id}`
+  - Elimina un usuario por su ID.
 
-        Body:
-```json
-        {
-          "username": "nuevo_usuario",
-          "password": "nueva_contraseña"
-        }
-```
-Obtener todos los usuarios: GET /users
+## Tópicos
 
-Obtener usuario por ID: GET /users/{id}
+### Crear Tópico
+- **POST** `/topicos`
+  - Crea un nuevo tópico.
+  - **Body**:
+    ```json
+    {
+      "title": "New Topic",
+      "message": "This is a new topic",
+      "author": "author1",
+      "course": "course1"
+    }
+    ```
 
-Actualizar usuario: PUT /users/{id}
+### Obtener Todos los Tópicos
+- **GET** `/topicos`
+  - Devuelve una lista paginada de tópicos.
+  - **Parámetros**:
+    - `page`: Número de página (por defecto 0).
+    - `size`: Tamaño de la página (por defecto 10).
+    - `sort`: Campo y dirección de ordenación (por defecto `createdAt,asc`).
 
-        Body:
-```json
+### Obtener Tópico por ID
+- **GET** `/topicos/{id}`
+  - Devuelve un tópico por su ID.
 
-        {
-          "username": "usuario_actualizado",
-          "password": "contraseña_actualizada"
-        }
-```
-    Eliminar usuario: DELETE /users/{id}
+### Actualizar Tópico
+- **PUT** `/topicos/{id}`
+  - Actualiza un tópico existente.
+  - **Body**:
+    ```json
+    {
+      "title": "Updated Topic",
+      "message": "This is an updated topic",
+      "status": "ACTIVO",
+      "author": "author1",
+      "course": "course1"
+    }
+    ```
 
-Tópicos
+### Eliminar Tópico
+- **DELETE** `/topicos/{id}`
+  - Elimina un tópico por su ID.
 
-    Crear tópico: POST /topics
+## Respuestas
 
-        Body:
-```json
+### Crear Respuesta
+- **POST** `/respuestas`
+  - Crea una nueva respuesta.
+  - **Body**:
+    ```json
+    {
+      "message": "This is a reply",
+      "topicId": 1,
+      "userId": 1
+    }
+    ```
 
-        {
-          "title": "Título del tópico",
-          "message": "Mensaje del tópico",
-          "author": "Autor del tópico",
-          "course": "Curso relacionado"
-        }
-```
-    Obtener todos los tópicos: GET /topics?page=0&size=10&sortBy=title
-    - Este endpoint esta visible sin autenticación.
+### Obtener Respuestas por Tópico
+- **GET** `/respuestas/topico/{topicId}`
+  - Devuelve una lista de respuestas asociadas a un tópico.
 
-    Obtener tópico por ID: GET /topics/{id}
-
-    Obtener tópico con respuestas: GET /topics/{id}/with-replies
-
-    Actualizar tópico: PUT /topics/{id}
-
-        Body:
-```json
-
-        {
-          "title": "Título actualizado",
-          "message": "Mensaje actualizado",
-          "author": "Autor actualizado",
-          "course": "Curso actualizado"
-        }
-```
-    Eliminar tópico: DELETE /topics/{id}
-
-Respuestas
-
-    Crear respuesta: POST /replies
-
-        Body:
-```json
-
-        {
-          "message": "Mensaje de la respuesta",
-          "status": "ACTIVE",
-          "topicId": 1,
-          "userId": 1
-        }
-```
-    Obtener todas las respuestas: GET /replies
-
-    Obtener respuesta por ID: GET /replies/{id}
-
-    Actualizar respuesta: PUT /replies/{id}
-
-        Body:
-```json
-
-        {
-          "message": "Mensaje actualizado",
-          "status": "INACTIVE"
-        }
-```
-Eliminar respuesta: DELETE /replies/{id}
+### Eliminar Respuesta
+- **DELETE** `/respuestas/{id}`
+  - Elimina una respuesta por su ID.
 
 
