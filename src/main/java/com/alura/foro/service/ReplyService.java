@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReplyService {
@@ -27,38 +26,23 @@ public class ReplyService {
     private UserRepository userRepository;
 
     public Reply createReply(ReplyDTO replyDTO) {
+        Topic topic = topicRepository.findById(replyDTO.getTopicId())
+                .orElseThrow(() -> new RuntimeException("Tópico no encontrado"));
+        User user = userRepository.findById(replyDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         Reply reply = new Reply();
         reply.setMessage(replyDTO.getMessage());
-        reply.setStatus(replyDTO.getStatus());
-        reply.setCreatedAt(LocalDateTime.now());
-
-        Topic topic = topicRepository.findById(replyDTO.getTopicId())
-                .orElseThrow(() -> new RuntimeException("Topic not found"));
-        User user = userRepository.findById(replyDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
         reply.setTopic(topic);
         reply.setUser(user);
+        reply.setCreatedAt(LocalDateTime.now());
+        reply.setStatus("ACTIVO");
 
         return replyRepository.save(reply);
     }
 
-    public List<Reply> getAllReplies() {
-        return replyRepository.findAll();
-    }
-
-    public Optional<Reply> getReplyById(Long id) {
-        return replyRepository.findById(id);
-    }
-
-    public Reply updateReply(Long id, ReplyDTO replyDTO) {
-        Reply reply = replyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reply not found"));
-
-        reply.setMessage(replyDTO.getMessage());
-        reply.setStatus(replyDTO.getStatus());
-
-        return replyRepository.save(reply);
+    public List<Reply> getRepliesByTopic(Long topicId) {
+        return replyRepository.findByTopicId(topicId);
     }
 
     public void deleteReply(Long id) {
