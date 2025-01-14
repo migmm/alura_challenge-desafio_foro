@@ -1,10 +1,11 @@
-
+-- Crear la tabla 'user'
 CREATE TABLE user (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
+-- Crear la tabla 'topic'
 CREATE TABLE topic (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -15,6 +16,7 @@ CREATE TABLE topic (
     course VARCHAR(255) NOT NULL
 );
 
+-- Crear la tabla 'reply'
 CREATE TABLE reply (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     message TEXT NOT NULL,
@@ -25,6 +27,20 @@ CREATE TABLE reply (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
+-- Insertar datos en 'user'
+INSERT INTO user (username, password) VALUES
+('john_doe', 'password1'),
+('jane_smith', 'password2'),
+('alice_w', 'password3'),
+('bob_brown', 'password4'),
+('charlie_d', 'password5'),
+('diana_r', 'password6'),
+('edward_k', 'password7'),
+('fiona_g', 'password8'),
+('george_h', 'password9'),
+('hannah_m', 'password10');
+
+-- Insertar datos en 'topic'
 INSERT INTO topic (title, message, created_at, status, author, course) VALUES
 ('Cómo usar Spring Boot', 'Estoy aprendiendo Spring Boot y tengo algunas preguntas.', NOW(), 'ACTIVO', 'john_doe', 'Spring Boot'),
 ('Mejores prácticas para APIs REST', '¿Cuáles son las mejores prácticas para diseñar APIs REST?', NOW(), 'ACTIVO', 'jane_smith', 'Diseño de APIs'),
@@ -37,10 +53,11 @@ INSERT INTO topic (title, message, created_at, status, author, course) VALUES
 ('Conceptos básicos de Kubernetes', '¿Alguien puede explicar los conceptos básicos de Kubernetes?', NOW(), 'ACTIVO', 'george_h', 'DevOps'),
 ('Pruebas unitarias en Java', '¿Cuáles son las mejores herramientas para pruebas unitarias en Java?', NOW(), 'ACTIVO', 'hannah_m', 'Java');
 
+-- Insertar datos en 'reply'
 INSERT INTO reply (message, created_at, topic_id, user_id) VALUES
-('Primero, asegúrate de tener Java instalado.', NOW(), 1, 2),
-('Luego, crea un proyecto con Spring Initializr.', NOW(), 1, 3),
-('Usa nombres de recursos significativos y métodos HTTP adecuados.', NOW(), 2, 1),
+('Primero, asegúrate de tener Java instalado.', NOW(), 1, 1),
+('Luego, crea un proyecto con Spring Initializr.', NOW(), 1, 2),
+('Usa nombres de recursos significativos y métodos HTTP adecuados.', NOW(), 2, 3),
 ('Siempre versiona tus APIs.', NOW(), 2, 4),
 ('Los cierres son funciones que recuerdan su ámbito léxico.', NOW(), 3, 5),
 ('Son útiles para la encapsulación.', NOW(), 3, 6),
