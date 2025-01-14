@@ -1,6 +1,5 @@
 package com.alura.foro.service;
 
-import com.alura.foro.dto.ReplyDTO;
 import com.alura.foro.dto.TopicDTO;
 import com.alura.foro.model.Topic;
 import com.alura.foro.repository.TopicRepository;
@@ -12,9 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -22,69 +19,42 @@ public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
 
-    // Crear un nuevo tópico
     public Topic createTopic(TopicDTO topicDTO) {
+        if (topicRepository.findByTitleAndMessage(topicDTO.getTitle(), topicDTO.getMessage()).isPresent()) {
+            throw new RuntimeException("El tópico ya existe");
+        }
+
         Topic topic = new Topic();
         topic.setTitle(topicDTO.getTitle());
         topic.setMessage(topicDTO.getMessage());
         topic.setAuthor(topicDTO.getAuthor());
         topic.setCourse(topicDTO.getCourse());
         topic.setCreatedAt(LocalDateTime.now());
-        topic.setStatus("ACTIVE");
+        topic.setStatus("ACTIVO");
+
         return topicRepository.save(topic);
     }
 
-    // Obtener todos los tópicos
-    public Page<Topic> getAllTopics(int page, int size, String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    public Page<Topic> getAllTopics(int page, int size, String[] sort) {
+        Sort.Direction direction = sort[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort[0]));
         return topicRepository.findAll(pageable);
     }
 
-    public TopicDTO getTopicWithRepliesById(Long id) {
-        Topic topic = topicRepository.findById(id).orElseThrow(() -> new RuntimeException("Topic not found"));
-        TopicDTO dto = new TopicDTO(); // Usa TopicDTO
-        dto.setId(topic.getId());
-        dto.setTitle(topic.getTitle());
-        dto.setMessage(topic.getMessage());
-        dto.setCreatedAt(topic.getCreatedAt());
-        dto.setStatus(topic.getStatus());
-        dto.setAuthor(topic.getAuthor());
-        dto.setCourse(topic.getCourse());
-
-        // Mapea las respuestas a ReplyDTO
-        List<ReplyDTO> replyDTOs = topic.getReplies().stream()
-                .map(reply -> {
-                    ReplyDTO replyDTO = new ReplyDTO();
-                    replyDTO.setMessage(reply.getMessage());
-                    replyDTO.setCreatedAt(reply.getCreatedAt());
-                    replyDTO.setUsername(reply.getUser().getUsername()); // Asigna el username
-                    replyDTO.setStatus(reply.getStatus());
-                    replyDTO.setTopicId(reply.getTopic().getId());
-                    replyDTO.setUserId(reply.getUser().getId());
-                    return replyDTO;
-                })
-                .collect(Collectors.toList());
-
-        dto.setReplies(replyDTOs); // Asigna las respuestas al DTO
-        return dto;
-    }
-
-    // Obtener un tópico por ID
     public Optional<Topic> getTopicById(Long id) {
         return topicRepository.findById(id);
     }
 
-    // Actualizar un tópico
-    public Topic updateTopic(Long id, TopicDTO topicDTO) {
+    public Topic updateTopic(Long id, Topic topicDetails) {
         Topic topic = topicRepository.findById(id).orElseThrow(() -> new RuntimeException("Topic not found"));
-        topic.setTitle(topicDTO.getTitle());
-        topic.setMessage(topicDTO.getMessage());
-        topic.setAuthor(topicDTO.getAuthor());
-        topic.setCourse(topicDTO.getCourse());
+        topic.setTitle(topicDetails.getTitle());
+        topic.setMessage(topicDetails.getMessage());
+        topic.setStatus(topicDetails.getStatus());
+        topic.setAuthor(topicDetails.getAuthor());
+        topic.setCourse(topicDetails.getCourse());
         return topicRepository.save(topic);
     }
 
-    // Eliminar un tópico
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
     }
